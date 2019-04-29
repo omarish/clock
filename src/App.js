@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
 import classNames from 'classnames';
-
 import './styles/index.scss';
 import Clock from './components/Clock'
 import { scaleLinear } from 'd3-scale'
 import * as d3 from "d3"
 import moment from 'moment'
+import { months, DOB, lifeExpectancy } from './util/constants'
 
 const hands = [
   'Minute',
@@ -14,24 +14,8 @@ const hands = [
   'Life'
 ]
 const clockRadius = 400,
-  margin = 30;
-const months = [
-  'Jan',
-  'Feb',
-  'Mar',
-  'Apr',
-  'May',
-  'Jun',
-  'Jul',
-  'Aug',
-  'Sep',
-  'Oct',
-  'Nov',
-  'Dec'
-]
-const lifeExpectancy = 85;
+      margin = 30;
 const tsToDays = ts => ts / 86400 / 1000
-const DOB = moment('1988-06-19')
 
 const faces = {
   'Minute': {
@@ -110,12 +94,8 @@ class App extends Component {
       1000
     )
     this.setState({
-      face: 'Minute'
+      face: 'Day'
     })
-  }
-
-  componentWillMount() {
-
   }
 
   tick() {
@@ -173,7 +153,5 @@ class App extends Component {
     )
   }
 }
-
-
 
 export default App;
