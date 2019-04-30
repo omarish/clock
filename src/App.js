@@ -2,21 +2,20 @@ import React, { Component } from 'react';
 import classNames from 'classnames';
 import './styles/index.scss';
 import Clock from './components/Clock'
+import Settings from './components/Settings'
 import { scaleLinear } from 'd3-scale'
 import * as d3 from "d3"
 import moment from 'moment'
-import { months, DOB, lifeExpectancy } from './util/constants'
+import { months, DOB } from './util/constants'
+import Storage from './storage'
 
-const hands = [
-  'Minute',
-  'Day',
-  'Year',
-  'Life'
-]
+const storage = new Storage()
+const hands = ['Minute', 'Day', 'Year', 'Life']
 const clockRadius = 400,
       margin = 30;
 const tsToDays = ts => ts / 86400 / 1000
 
+const pages = { CLOCK: 'clock', SETTINGS: 'settings'}
 const faces = {
   'Minute': {
     type: 'Minute',
@@ -66,10 +65,10 @@ const faces = {
     value: time => tsToDays(time - DOB) / 365,
     length: -(clockRadius - 100),
     balance: 0,
-    ticks: d3.range(0, lifeExpectancy, 5),
+    ticks: d3.range(0, storage.get('exp', 100), 5),
     hover: val => `Age: ${val}`,
     scale: scaleLinear()
-      .domain([0, lifeExpectancy])
+      .domain([0, storage.get('exp', 100)])
       .range([0, 360]),
     text: (d, i) => {
       if (i === 0) return 'Born'
@@ -84,6 +83,7 @@ class App extends Component {
     super(props)
     this.state = {
       face: 'Hours',
+      page: pages.CLOCK,
       now: moment()
     }
   }
@@ -122,33 +122,57 @@ class App extends Component {
     })
   }
 
+  showSettings = () => {
+    this.setState({
+      page: pages.SETTINGS
+    })
+  }
+
   render() {
     const side = 2 * clockRadius + margin
     const setFace = face => this.setState({ face })
+
+    const clockPage = (
+      <div id="container">
+        <div className='hands'>
+          Show: {this.renderHands()}
+        </div>
+        {this.state.page === pages.CLOCK && <Clock
+          now={this.state.now}
+          faces={faces}
+          onSetFace={setFace}
+          activeFace={this.state.face}
+          radius={clockRadius}
+          width={side}
+          height={side}
+          margin={30}
+          storage={storage}
+        />}
+      </div>
+    )
+
+    const onSubmit = evt => {
+      evt.preventDefault();
+      this.setState({ page: pages.CLOCK })
+      return true
+    }
+    const settingsPage = (
+      <Settings
+        storage={storage}
+        onSubmit={onSubmit}
+      />
+    )
 
     return (
       <div className='container'>
         <div className='title'>
           <h2>Four Handed Clock</h2>
-          {/* <div className="links">
-            <a href="#settings">Settings</a>
-          </div> */}
+          <div className="links">
+            <button onClick={() => this.showSettings()}>Settings</button>
+          </div>
         </div>
-        <div className='hands'>
-          Show: {this.renderHands()}
-        </div>
-        <div id="container">
-          <Clock
-            now={this.state.now}
-            faces={faces}
-            onSetFace={setFace}
-            activeFace={this.state.face}
-            radius={clockRadius}
-            width={side}
-            height={side}
-            margin={30}
-          />
-        </div>
+        {this.state.page === pages.CLOCK && clockPage}
+        {this.state.page === pages.SETTINGS && settingsPage}
       </div>
     )
   }
