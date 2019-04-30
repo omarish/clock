@@ -3,8 +3,8 @@ import PropTypes from 'prop-types'
 
 
 export const Settings = (props) => {
-  const [dob, setDob] = React.useState(localStorage.getItem('dob'));
-  const [exp, setExp] = React.useState(localStorage.getItem('exp'));
+  const [dob, setDob] = React.useState(props.storage.get('dob', '1988-06-13'));
+  const [exp, setExp] = React.useState(props.storage.getExp());
 
   const setters = {
     dob: setDob,
@@ -28,6 +28,7 @@ export const Settings = (props) => {
                 <input
                   type="text"
                   value={dob}
+                  placeholder={"1988-12-15"}
                   onChange={onChange('dob')}
                 />
               </td>
