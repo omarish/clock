@@ -1,6 +1,5 @@
 import { getTimezone } from './timezone'
 
-
 var x = document.getElementById("geo-result");
 
 const savePosition = (position) => {
@@ -31,7 +30,3 @@ document.getElementById('geography').addEventListener('submit', e => {
   e.preventDefault()
   getLocation()
 })
-
-export const getSetting = name => {
-  return localStorage.getItem(name)
-}

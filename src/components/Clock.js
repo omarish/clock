@@ -88,7 +88,6 @@ class Clock extends Component {
       .attr('id', faceId)
       .attr('class', 'clock-face')
       .on('click', (d, i) => {
-        console.info(d.type)
         this.props.onSetFace(d.type)
       })
 

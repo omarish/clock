@@ -21,36 +21,34 @@ export const Settings = (props) => {
       <h2>Settings</h2>
       <form onSubmit={props.onSubmit}>
         <table>
-          <tr>
-            <td>Birthday</td>
-            <td>
-              <input
-                type="text"
-                value={dob}
-                onChange={onChange('dob')}
-              />
-            </td>
-          </tr>
-          <tr>
-            <td>Life Expectancy</td>
-            <td>
-              <input
-                type="text"
-                value={exp}
-                onChange={onChange('exp')}
-                placeholder={100} />
-            </td>
-          </tr>
-          <tr>
-            <td>Geography</td>
-            <td>San Francisco</td>
-          </tr>
-          <tr>
-            <td></td>
-            <td>
-              <button type="submit">Save</button>
-            </td>
-          </tr>
+          <tbody>
+            <tr>
+              <td>Birthday</td>
+              <td>
+                <input
+                  type="text"
+                  value={dob}
+                  onChange={onChange('dob')}
+                />
+              </td>
+            </tr>
+            <tr>
+              <td>Life Expectancy</td>
+              <td>
+                <input
+                  type="text"
+                  value={exp}
+                  onChange={onChange('exp')}
+                  placeholder={100} />
+              </td>
+            </tr>
+            <tr>
+              <td></td>
+              <td>
+                <button type="submit">Save</button>
+              </td>
+            </tr>
+          </tbody>
         </table>
       </form>
     </div>
