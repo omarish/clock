@@ -16,7 +16,7 @@ export class Storage {
   }
 
   getDOB() {
-    const val = this.get('dob', '1980-01-01')
+    const val = this.get('dob', '1980-06-13')
     return moment(val)
   }
 
